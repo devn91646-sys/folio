@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Folio, independent press and bookshop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#000;color:#fff;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* Nav */
+.nav{position:fixed;z-index:5;left:23.3vw;right:23.4vw;top:4.6vh;height:4.4vh;display:flex;align-items:center;font:500 max(11px,.78vw) Inter,sans-serif}
+.logo{display:flex;align-items:center;gap:.6vw}
+.tile{position:relative;width:2.1vw;height:2.4vw;min-width:22px;min-height:25px;background:#b8a58a;border-radius:.35vw}
+.tile i{position:absolute;left:32%;top:18%;width:24%;height:64%;background:#16120d;border-radius:1px}
+.lt{display:flex;flex-direction:column;line-height:1}
+.lt b{font:400 max(17px,1.55vw)/1 "Libre Caslon Display",serif}
+.lt small{font:400 max(8px,.6vw)/1 Inter,sans-serif;opacity:.7;margin-top:.2vw}
+.links{display:flex;align-items:center;gap:2.3vw;margin-left:11.4vw;margin-right:auto}
+.links a,.right>a:first-child{opacity:.88;transition:opacity .2s;display:inline-flex;align-items:center;gap:.3vw}
+.links a:hover,.right>a:first-child:hover{opacity:1}
+.links svg{width:.65vw;min-width:8px;height:auto}
+.right{display:flex;align-items:center;gap:2.4vw}
+.pill{background:#fff;color:#000;border-radius:.4vw;padding:.55vw 1vw;transition:transform .2s}
+.pill:hover{transform:translateY(-1px)}
+
+/* Wordmark */
+.word{position:fixed;z-index:1;left:0;right:0;text-align:center;--fs:min(46vh,32vw);font:400 var(--fs)/1 "Libre Caslon Display",serif;letter-spacing:-.02em;top:calc(46.5vh - var(--fs)*.8);user-select:none}
+
+/* Link row */
+.row{position:fixed;z-index:1;left:0;right:0;top:51.1vh;display:flex;justify-content:center;gap:2.1vw;font:500 max(10px,.74vw) Inter,sans-serif}
+.row a{opacity:.85;transition:opacity .2s}
+.row a:hover{opacity:1}
+
+canvas{position:fixed;inset:0;z-index:2;width:100%;height:100%;pointer-events:none;display:block}
+
+@media (max-width:760px){
+  .nav{left:5vw;right:5vw;top:2.5vh}
+  .links,.right>a:first-child{display:none}
+  .nav{justify-content:space-between}
+  .tile{width:26px;height:30px}
+  .pill{padding:9px 14px;border-radius:6px}
+  .word{--fs:36vw;top:14vh}
+  .row{top:36vh;flex-wrap:wrap;padding:0 8vw;gap:10px 18px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a class="logo" href="#">
+    <span class="tile"><i></i></span>
+    <span class="lt"><b>Folio</b><small>independent press</small></span>
+  </a>
+  <div class="links">
+    <a href="#">Books <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></a>
+    <a href="#">Authors</a>
+    <a href="#">Journal</a>
+    <a href="#">More <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></a>
+  </div>
+  <div class="right">
+    <a href="#">Sign in</a>
+    <a class="pill" href="#">Start reading</a>
+  </div>
+</nav>
+
+<h1 class="word" id="word">Folio</h1>
+
+<div class="row" id="row">
+  <a href="#">New Releases</a><a href="#">Bestsellers</a><a href="#">Fiction</a><a href="#">Nonfiction</a>
+  <a href="#">Poetry</a><a href="#">Classics</a><a href="#">Independent Voices</a><a href="#">Gift Cards</a>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+/* ---------- Assets ---------- */
+const SHEET_A = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261030_003447_7862e2d0-751c-4d7c-9c8a-e682415d908f.png&w=2336&q=90';
+const SHEET_B = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261030_003448_95f1eed5-2ae5-4736-a53c-f3b3f87acd3b.png&w=2336&q=90';
+const SW = 2336, SH = 1744;
+
+//
